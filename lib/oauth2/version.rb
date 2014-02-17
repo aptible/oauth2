@@ -2,8 +2,8 @@ module OAuth2
   class Version
     MAJOR = 0
     MINOR = 9
-    PATCH = 3
-    PRE = nil
+    PATCH = 4
+    PRE = 'aptible'
 
     class << self
       # @return [String]
