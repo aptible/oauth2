@@ -10,15 +10,15 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'multi_xml', '~> 0.5'
   spec.add_dependency 'rack', '~> 1.2'
   spec.add_dependency 'jwt', '~> 0.1.8'
-  spec.authors       = ['Michael Bleigh', 'Erik Michaels-Ober']
+  spec.authors       = ['Frank Macreery']
   spec.description   = %q{A Ruby wrapper for the OAuth 2.0 protocol built with a similar style to the original OAuth spec.}
-  spec.email         = ['michael@intridea.com', 'sferik@gmail.com']
+  spec.email         = ['frank@macreery.com']
   spec.files         = %w(.document CONTRIBUTING.md LICENSE.md README.md Rakefile oauth2.gemspec)
   spec.files        += Dir.glob('lib/**/*.rb')
   spec.files        += Dir.glob('spec/**/*')
-  spec.homepage      = 'http://github.com/intridea/oauth2'
+  spec.homepage      = 'http://github.com/fancyremarker/oauth2-aptible'
   spec.licenses      = ['MIT']
-  spec.name          = 'oauth2'
+  spec.name          = 'oauth2-aptible'
   spec.require_paths = ['lib']
   spec.required_rubygems_version = '>= 1.3.5'
   spec.summary       = %q{A Ruby wrapper for the OAuth 2.0 protocol.}
