@@ -3,12 +3,11 @@ module OAuth2
     MAJOR = 0
     MINOR = 9
     PATCH = 4
-    PRE = 'aptible'
 
     class << self
       # @return [String]
       def to_s
-        [MAJOR, MINOR, PATCH, PRE].compact.join('.')
+        [MAJOR, MINOR, PATCH].compact.join('.')
       end
     end
   end
