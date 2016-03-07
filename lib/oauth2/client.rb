@@ -169,5 +169,9 @@ module OAuth2
     def assertion
       @assertion ||= OAuth2::Strategy::Assertion.new(self)
     end
+
+    def token_exchange
+      @token_exchange ||= OAuth2::Strategy::TokenExchange.new(self)
+    end
   end
 end
