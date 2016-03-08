@@ -2,7 +2,7 @@ module OAuth2
   class Version
     MAJOR = 0
     MINOR = 9
-    PATCH = 4
+    PATCH = 5
 
     class << self
       # @return [String]
