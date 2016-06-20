@@ -76,7 +76,7 @@ describe OAuth2::Strategy::AuthCode do
         end
 
         it 'returns AccessToken with #expires_at' do
-          expect(@access.expires_at).to be_kind_of(Integer)
+          expect(@access.expires_at).to be_kind_of(Time)
         end
 
         it 'returns AccessToken with params accessible via []' do

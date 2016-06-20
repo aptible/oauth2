@@ -1,3 +1,5 @@
+require 'time'
+
 module OAuth2
   class AccessToken
     attr_reader :client, :token, :expires_in, :expires_at, :params
@@ -30,7 +32,7 @@ module OAuth2
     # @param [Hash] opts the options to create the Access Token with
     # @option opts [String] :refresh_token (nil) the refresh_token value
     # @option opts [FixNum, String] :expires_in (nil) the number of seconds in which the AccessToken will expire
-    # @option opts [FixNum, String] :expires_at (nil) the epoch time in seconds in which AccessToken will expire
+    # @option opts [FixNum, String] :expires_at (nil) the time (epoch time in seconds or iso8601-formatted date) when the token will expire
     # @option opts [Symbol] :mode (:header) the transmission mode of the Access Token parameter value
     #    one of :header, :body or :query
     # @option opts [String] :header_format ('Bearer %s') the string format to use for the Authorization header
@@ -44,8 +46,16 @@ module OAuth2
       end
       @expires_in ||= opts.delete('expires')
       @expires_in &&= @expires_in.to_i
-      @expires_at &&= @expires_at.to_i
-      @expires_at ||= Time.now.to_i + @expires_in if @expires_in
+      @expires_at &&= begin
+                        Time.iso8601(@expires_at)
+                      rescue ArgumentError, TypeError
+                        begin
+                          Time.at(Integer(@expires_at))
+                        rescue ArgumentError
+                          nil
+                        end
+                      end unless @expires_at.is_a?(Time)
+      @expires_at ||= Time.at(Time.now.to_i + @expires_in) if @expires_in
       @options = {:mode          => opts.delete(:mode) || :header,
                   :header_format => opts.delete(:header_format) || 'Bearer %s',
                   :param_name    => opts.delete(:param_name) || 'access_token'}
@@ -70,7 +80,7 @@ module OAuth2
     #
     # @return [Boolean]
     def expired?
-      expires? && (expires_at < Time.now.to_i)
+      expires? && (expires_at < Time.now)
     end
 
     # Refreshes the current Access Token

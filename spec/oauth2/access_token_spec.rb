@@ -60,11 +60,35 @@ describe AccessToken do
       expect(target.options[:mode]).to eq(:body)
     end
 
-    it 'initializes with a string expires_at' do
+    it 'initializes with a string expires_at epoch' do
       hash = {:access_token => token, :expires_at => '1361396829', 'foo' => 'bar'}
       target = AccessToken.from_hash(client, hash)
       assert_initialized_token(target)
-      expect(target.expires_at).to be_a(Integer)
+      expect(target.expires_at).to be_a(Time)
+      expect(target.expires_at.to_i).to eq(1361396829)
+    end
+
+    it 'initializes with a string expires_at time' do
+      hash = {:access_token => token, :expires_at => '2016-05-06T17:37:59.128Z', 'foo' => 'bar'}
+      target = AccessToken.from_hash(client, hash)
+      assert_initialized_token(target)
+      expect(target.expires_at).to be_a(Time)
+      expect(target.expires_at.to_i).to eq(1462556279)
+    end
+
+    it 'sets a Time for expires_at via expires_in' do
+      hash = {:access_token => token, :expires_in => '100', 'foo' => 'bar'}
+      target = AccessToken.from_hash(client, hash)
+      assert_initialized_token(target)
+      expect(target.expires_at).to be_a(Time)
+    end
+
+    it 'passes through a Time for expires_at' do
+      t = Time.now
+      hash = {:access_token => token, :expires_at => t, 'foo' => 'bar'}
+      target = AccessToken.from_hash(client, hash)
+      assert_initialized_token(target)
+      expect(target.expires_at).to eq(t)
     end
   end
 
@@ -164,7 +188,12 @@ describe AccessToken do
 
   describe '#to_hash' do
     it 'return a hash equals to the hash used to initialize access token' do
-      hash = {:access_token => token, :refresh_token => 'foobar', :expires_at => Time.now.to_i + 200, 'foo' => 'bar'}
+      t = Time.now + 200
+      hash = { :access_token => token,
+               :refresh_token => 'foobar',
+               :expires_at => t,
+               'foo' => 'bar'
+      }
       access_token = AccessToken.from_hash(client, hash.clone)
       expect(access_token.to_hash).to eq(hash)
     end
