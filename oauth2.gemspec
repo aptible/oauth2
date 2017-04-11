@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'multi_json', '~> 1.3'
   spec.add_dependency 'multi_xml', '~> 0.5'
   spec.add_dependency 'rack', '~> 1.2'
-  spec.add_dependency 'jwt', '~> 0.1.8'
+  spec.add_dependency 'jwt', '~> 1.5.6'
   spec.authors       = ['Frank Macreery']
   spec.description   = %q{A Ruby wrapper for the OAuth 2.0 protocol built with a similar style to the original OAuth spec.}
   spec.email         = ['frank@macreery.com']
