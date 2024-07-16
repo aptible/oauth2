@@ -1,0 +1,38 @@
+# This file was created in Aptible's fork to migrate off Travis, but it should be replace by the upstream workflows
+# whenever we get around to pulling in upstream changes.
+
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - aptible
+
+jobs:
+  test:
+    name: Specs - Ruby ${{ matrix.ruby }}
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ruby-version: 2.6
+            bundler-version: 1.17.3
+          - ruby-version: 2.7
+            bundler-version: 1.17.3
+          - ruby-version: 3.2
+            bundler-version: 2.4.10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Ruby ${{ matrix.ruby-version }} & Bundler ${{ matrix.bundler-version }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler: ${{ matrix.bundler-version }}
+          bundler-cache: true
+      - name: Run tests
+        run: bundle exec rake
